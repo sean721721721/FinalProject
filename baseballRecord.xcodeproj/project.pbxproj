@@ -13,6 +13,8 @@
 		A903B02D1EB78B8600470B7C /* baseballRecord.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A903B02B1EB78B8600470B7C /* baseballRecord.xcdatamodeld */; };
 		A903B02F1EB78B8600470B7C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A903B02E1EB78B8600470B7C /* Assets.xcassets */; };
 		A903B0321EB78B8600470B7C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A903B0301EB78B8600470B7C /* LaunchScreen.storyboard */; };
+		A9FF2F841EB79DA6000E3FC5 /* baseballField.png in Resources */ = {isa = PBXBuildFile; fileRef = A9FF2F831EB79DA6000E3FC5 /* baseballField.png */; };
+		A9FF2F861EB79EEE000E3FC5 /* baseballField-2.png in Resources */ = {isa = PBXBuildFile; fileRef = A9FF2F851EB79EEE000E3FC5 /* baseballField-2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		A903B02E1EB78B8600470B7C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A903B0311EB78B8600470B7C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A903B0331EB78B8600470B7C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A9FF2F831EB79DA6000E3FC5 /* baseballField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = baseballField.png; path = ../../baseballField.png; sourceTree = "<group>"; };
+		A9FF2F851EB79EEE000E3FC5 /* baseballField-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "baseballField-2.png"; path = "../../baseballField-2.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				A903B0241EB78B8600470B7C /* AppDelegate.swift */,
 				A903B0261EB78B8600470B7C /* ViewController.swift */,
 				A903B0281EB78B8600470B7C /* Main.storyboard */,
+				A9FF2F831EB79DA6000E3FC5 /* baseballField.png */,
+				A9FF2F851EB79EEE000E3FC5 /* baseballField-2.png */,
 				A903B02E1EB78B8600470B7C /* Assets.xcassets */,
 				A903B0301EB78B8600470B7C /* LaunchScreen.storyboard */,
 				A903B0331EB78B8600470B7C /* Info.plist */,
@@ -129,6 +135,8 @@
 			files = (
 				A903B0321EB78B8600470B7C /* LaunchScreen.storyboard in Resources */,
 				A903B02F1EB78B8600470B7C /* Assets.xcassets in Resources */,
+				A9FF2F841EB79DA6000E3FC5 /* baseballField.png in Resources */,
+				A9FF2F861EB79EEE000E3FC5 /* baseballField-2.png in Resources */,
 				A903B02A1EB78B8600470B7C /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +314,7 @@
 				A903B0381EB78B8600470B7C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
