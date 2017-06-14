@@ -12,30 +12,52 @@ class Player{
     var name = ""
     var atBat = 0 //打擊次數
     var hit = 0 //安打數
-    init(as name: String) {
+    var ip:Float = 0.0 //投球局數
+    var position = "" //守備位置
+    var ER:Float = 0 //自責分
+    var pitchH = 0 //被安打數
+    init(as name: String ,position pos: String) {
         self.name = name
+        self.position = pos
     }
+    //設定打者名字
     func setName(as name: String){
         self.name = name
-    
     }
+    //取得打者名字
     func getName() -> String {
         return self.name
     }
+    //增加打者安打數
     func addHit(){
         self.hit += 1
         self.atBat += 1
     }
+    //增加打者出局數
     func addOut(){
-        
         self.atBat += 1
     }
+    //增加被安打數
+    func addPitchH(){
+        self.pitchH += 1
+    }
+    //增加投球局數
+    func addIP(){
+        self.ip += 0.1
+    }
+    //增加自責失分
+    func addER(){
+        self.ER += 1
+    }
+    //取得安打數
     func getHit() ->String{
         return String(self.hit)
     }
+    //取得打擊數
     func getAtBat() -> String{
         return String(self.atBat)
     }
+    //取得打擊率
     func getBA() -> String{
         var BA:Float
         if self.atBat == 0{
@@ -45,8 +67,37 @@ class Player{
         }
         return String(format:"%.3f", BA )
     }
+    //取得守備位置
+    func getPosition() -> String{
+        return self.position
+    }
+    //取得投手被打擊數
+    func getPitchH() -> String{
+            return String(self.pitchH)
+    }
+    //取得投球局數
+    func getPitchIP() -> String{
+        return String(self.ip)
+    }
+    //取得防禦率
+    func getERA() -> String{
+        var ERA:Float
+        if self.ER == 0{
+            ERA = 0.000
+        }else if self.ER > 0 && self.ip == 0{
+            ERA = 999.999
+        }
+        else{
+            ERA = Float((self.ER * 9) / self.ip)
+        }
+        print(self.ER )
+        print(self.ER * 9)
+        print(self.ip)
+        print((self.ER * 9) / self.ip)
+        print(String((self.ER * 9) / self.ip))
+        return String(format:"%.3f", ERA)
+    }
 }
-
 
 class ViewController: UIViewController{
     var players = [String: Player]()
@@ -102,6 +153,12 @@ class ViewController: UIViewController{
     @IBOutlet var playerHit: UILabel! //上場打者打擊紀錄
     @IBOutlet var playerName: UILabel! //上場打者名字
     @IBOutlet var playerBA: UILabel! //上場打者打擊率
+    @IBOutlet var playerPosition: UILabel! //上場打者守備位置
+    @IBOutlet var pitchName: UILabel! //投手名字
+    @IBOutlet var pitchIP: UILabel! //投球局數
+    @IBOutlet var pitchERA: UILabel! //投手防禦率
+    @IBOutlet var pitchH: UILabel! //投手被安打數
+    
 
 
 //    @IBOutlet var dynamicPlayer: Player!
@@ -170,6 +227,12 @@ class ViewController: UIViewController{
             self.batters[whichTeamDefence][8].center.x = 119
             self.batters[whichTeamDefence][8].center.y = 84
     })
+        //投手資訊
+        pitchName.text? = (players[self.batters[whichTeamDefence][0].text!]?.getName())!
+        pitchIP.text? = (players[self.batters[whichTeamDefence][0].text!]?.getPitchIP())!
+        pitchERA.text? = (players[self.batters[whichTeamDefence][0].text!]?.getERA())!
+        pitchH.text? = (players[self.batters[whichTeamDefence][0].text!]?.getPitchH())!
+        
     }
     
     func hitCheck(whichTeam: Int) {
@@ -203,6 +266,15 @@ class ViewController: UIViewController{
         else{
             homeScoring = homeScoring + 1
             homeScore.text = String (homeScoring)
+        }
+        // 投手增加自責失分
+        if awayOrHome == 1{
+            players[self.batters[0][0].text!]?.addER()
+            pitchERA.text? = (players[self.batters[0][0].text!]?.getERA())!
+            
+        }else{
+            players[self.batters[1][0].text!]?.addER()
+            pitchERA.text? = (players[self.batters[1][0].text!]?.getERA())!
         }
     }
     
@@ -294,6 +366,7 @@ class ViewController: UIViewController{
          })
 //        打者資訊
         playerName.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getName())!
+        playerPosition.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getPosition())!
         playerBA.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getBA())!
         playerHit.text? = "\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getAtBat())!)-\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getHit())!)"
     }
@@ -305,6 +378,16 @@ class ViewController: UIViewController{
         playerBA.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getBA())!
         //        打者打擊紀錄
         playerHit.text? = "\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getAtBat())!)-\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getHit())!)"
+        //        投手紀錄
+        if awayOrHome == 1{
+            players[self.batters[0][0].text!]?.addIP()
+            pitchIP.text? = (players[self.batters[0][0].text!]?.getPitchIP())!
+            pitchERA.text? = (players[self.batters[0][0].text!]?.getERA())!
+        }else{
+            players[self.batters[1][0].text!]?.addIP()
+            pitchIP.text? = (players[self.batters[1][0].text!]?.getPitchIP())!
+            pitchERA.text? = (players[self.batters[1][0].text!]?.getERA())!
+        }
         
         UIView.animate(withDuration: 1.0,animations: {
             self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].alpha = 0.0
@@ -328,6 +411,18 @@ class ViewController: UIViewController{
         playerBA.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getBA())!
         //        打者打擊紀錄
         playerHit.text? = "\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getAtBat())!)-\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getHit())!)"
+        //        投手紀錄
+        if awayOrHome == 1{
+            
+            players[self.batters[0][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[0][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[0][0].text!]?.getPitchH())!
+        }else{
+             
+            players[self.batters[1][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[1][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[1][0].text!]?.getPitchH())!
+        }
         
         self.runner(batter: self.batterOn[self.awayOrHome], bases: 1)
         self.hitCheck(whichTeam: self.awayOrHome)
@@ -340,6 +435,18 @@ class ViewController: UIViewController{
         playerBA.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getBA())!
         //        打者打擊紀錄
         playerHit.text? = "\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getAtBat())!)-\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getHit())!)"
+        //        投手紀錄
+        if awayOrHome == 1{
+            
+            players[self.batters[0][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[0][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[0][0].text!]?.getPitchH())!
+        }else{
+             
+            players[self.batters[1][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[1][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[1][0].text!]?.getPitchH())!
+        }
         
         self.runner(batter: self.batterOn[self.awayOrHome], bases: 2)
         self.hitCheck(whichTeam: self.awayOrHome)
@@ -350,6 +457,18 @@ class ViewController: UIViewController{
         playerBA.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getBA())!
         //        打者打擊紀錄
         playerHit.text? = "\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getAtBat())!)-\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getHit())!)"
+        //        投手紀錄
+        if awayOrHome == 1{
+             
+            players[self.batters[0][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[0][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[0][0].text!]?.getPitchH())!
+        }else{
+             
+            players[self.batters[1][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[1][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[1][0].text!]?.getPitchH())!
+        }
         
         self.runner(batter: self.batterOn[self.awayOrHome], bases: 3)
         self.hitCheck(whichTeam: self.awayOrHome)
@@ -360,6 +479,23 @@ class ViewController: UIViewController{
         playerBA.text? = (players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getBA())!
 //        打者打擊紀錄
         playerHit.text? = "\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getAtBat())!)-\((players[self.batters[self.awayOrHome][self.batterOn[self.awayOrHome]].text!]?.getHit())!)"
+        //        投手紀錄
+        if awayOrHome == 1{
+             
+            players[self.batters[0][0].text!]?.addER()
+            players[self.batters[0][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[0][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[0][0].text!]?.getPitchH())!
+            pitchERA.text? = (players[self.batters[0][0].text!]?.getERA())!
+
+        }else{
+             
+            players[self.batters[1][0].text!]?.addER()
+            players[self.batters[1][0].text!]?.addPitchH()
+            pitchIP.text? = (players[self.batters[1][0].text!]?.getPitchIP())!
+            pitchH.text? = (players[self.batters[1][0].text!]?.getPitchH())!
+            pitchERA.text? = (players[self.batters[1][0].text!]?.getERA())!
+        }
         
         self.runner(batter: self.batterOn[self.awayOrHome], bases: 4)
         self.hitCheck(whichTeam: self.awayOrHome)
@@ -384,78 +520,87 @@ class ViewController: UIViewController{
         super.viewDidLoad()
 //        updateName()
         batters = [[awayPlayer1,awayPlayer2,awayPlayer3,awayPlayer4,awayPlayer5,awayPlayer6,awayPlayer7,awayPlayer8,awayPlayer9] , [homePlayer1,homePlayer2,homePlayer3,homePlayer4,homePlayer5,homePlayer6,homePlayer7,homePlayer8,homePlayer9]]
+        
+        //初始化選手資料
         awayPlayer1.text? = "Kevin"
-        let kevin = Player(as: "Kevin")
+        let kevin = Player(as: "Kevin" ,position: "P")
         players.updateValue(kevin, forKey: "Kevin")
         
         awayPlayer2.text? = "Robber"
-        let robber = Player(as: "Robber")
+        let robber = Player(as: "Robber" ,position: "C")
         players.updateValue(robber, forKey: "Robber")
         
         awayPlayer3.text? = "Green"
-        let green = Player(as: "Green")
+        let green = Player(as: "Green" ,position: "1B")
         players.updateValue(green, forKey: "Green")
         
         awayPlayer4.text? = "Anderson"
-        let anderson = Player(as: "Anderson")
+        let anderson = Player(as: "Anderson" ,position: "2B")
         players.updateValue(anderson, forKey: "Anderson")
         
         awayPlayer5.text? = "Bob"
-        let bob = Player(as: "Bob")
+        let bob = Player(as: "Bob" ,position: "3B")
         players.updateValue(bob, forKey: "Bob")
         
         awayPlayer6.text? = "Gray"
-        let gray = Player(as: "Gray")
+        let gray = Player(as: "Gray" ,position: "SS")
         players.updateValue(gray, forKey: "Gray")
         
         awayPlayer7.text? = "John"
-        let john = Player(as: "John")
+        let john = Player(as: "John" ,position: "LF")
         players.updateValue(john, forKey: "John")
         
         awayPlayer8.text? = "Wright"
-        let wright = Player(as: "Wright")
+        let wright = Player(as: "Wright" ,position: "CF")
         players.updateValue(wright, forKey: "Wright")
         
         awayPlayer9.text? = "Denny"
-        let denny = Player(as: "Denny")
+        let denny = Player(as: "Denny" ,position: "RF")
         players.updateValue(denny, forKey: "Denny")
         
         homePlayer1.text? = "Ann"
-        let ann = Player(as: "Ann")
+        let ann = Player(as: "Ann" ,position: "P")
         players.updateValue(ann, forKey: "Ann")
 
         homePlayer2.text? = "Young"
-        let young = Player(as: "Young")
+        let young = Player(as: "Young" ,position: "C")
         players.updateValue(young, forKey: "Young")
         
         homePlayer3.text? = "Money"
-        let money = Player(as: "Money")
+        let money = Player(as: "Money" ,position: "1B")
         players.updateValue(money, forKey: "Money")
         
         homePlayer4.text? = "Fry"
-        let fry = Player(as: "Fry")
+        let fry = Player(as: "Fry" ,position: "2B")
         players.updateValue(fry, forKey: "Fry")
         
         homePlayer5.text? = "Carter"
-        let carter = Player(as: "Carter")
+        let carter = Player(as: "Carter" ,position: "3B")
         players.updateValue(carter, forKey: "Carter")
         
         homePlayer6.text? = "Penny"
-        let penny = Player(as: "Penny")
+        let penny = Player(as: "Penny" ,position: "SS")
         players.updateValue(penny, forKey: "Penny")
         
         homePlayer7.text? = "Len"
-        let len = Player(as: "Len")
+        let len = Player(as: "Len" ,position: "LF")
         players.updateValue(len, forKey: "Len")
         
         homePlayer8.text? = "Rose"
-        let rose = Player(as: "Rose")
+        let rose = Player(as: "Rose" ,position: "CF")
         players.updateValue(rose, forKey: "Rose")
         
         homePlayer9.text? = "Ted"
-        let ted = Player(as: "Ted")
+        let ted = Player(as: "Ted" ,position: "RF")
         players.updateValue(ted, forKey: "Ted")
         
+        //開局投手資訊
+        pitchName.text? = (players[self.batters[1][0].text!]?.getName())!
+        pitchIP.text? = (players[self.batters[1][0].text!]?.getPitchIP())!
+        pitchERA.text? = (players[self.batters[1][0].text!]?.getERA())!
+        pitchH.text? = (players[self.batters[1][0].text!]?.getPitchH())!
+        
+
         
        
         /*

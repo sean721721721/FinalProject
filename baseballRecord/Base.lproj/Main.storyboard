@@ -578,9 +578,14 @@ Unicode: U+25B2、UTF-8: E2 96 B2</string>
                         <outlet property="homeScore" destination="RqK-rX-6si" id="93F-Tc-U3L"/>
                         <outlet property="innings" destination="s2m-if-0Nc" id="V3D-HS-qLH"/>
                         <outlet property="outCount" destination="Frc-O8-Vdl" id="DRt-Mh-x8o"/>
+                        <outlet property="pitchERA" destination="Uqh-f8-Zp6" id="94l-YX-V0Q"/>
+                        <outlet property="pitchH" destination="rN6-4y-ghw" id="ggY-ct-1Tq"/>
+                        <outlet property="pitchIP" destination="e3n-kQ-85U" id="16D-TV-HnI"/>
+                        <outlet property="pitchName" destination="kWJ-ef-nl8" id="p9i-vS-XBI"/>
                         <outlet property="playerBA" destination="VOa-n5-QJ1" id="FZ3-G7-qrP"/>
                         <outlet property="playerHit" destination="UWV-dB-v13" id="sAy-vg-sWY"/>
                         <outlet property="playerName" destination="jpH-yw-LPu" id="v0K-w7-obH"/>
+                        <outlet property="playerPosition" destination="SJZ-7S-5Py" id="Abg-6X-44T"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
